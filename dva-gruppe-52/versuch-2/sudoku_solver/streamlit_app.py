@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 import time
+import os
 from solver import solve, solve_step_by_step, reset_attempts, get_attempts
 from difficulty import count_empty, estimate_difficulty
 
@@ -8,11 +9,12 @@ st.set_page_config(page_title="Sudoku Solver", layout="centered")
 st.title("Sudoku Solver")
 
 examples = {}
+EXAMPLES_PATH = os.path.join(os.path.dirname(__file__), "examples", "sudoku_examples.json")
 try:
-    with open("examples/sudoku_examples.json", "r", encoding="utf-8") as f:
+    with open(EXAMPLES_PATH, "r", encoding="utf-8") as f:
         examples = json.load(f)
 except FileNotFoundError:
-    st.warning("Beispiel-Datei `examples/sudoku_examples.json` nicht gefunden.")
+    st.warning(f"Beispiel-Datei {EXAMPLES_PATH} nicht gefunden.")
 
 if "load_example" in st.session_state:
     beispiel = examples.get(st.session_state["load_example"])
